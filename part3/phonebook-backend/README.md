@@ -1,1 +1,0 @@
-Link to application: https://evening-dusk-99050.herokuapp.com/

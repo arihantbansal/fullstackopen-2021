@@ -1,9 +1,0 @@
-POST http://localhost:3001/api/blogs/
-Content-Type: application/json
-
-{
-    "title": "VS Code REST client is pretty good",
-    "author": "Terrence Tao",
-	"url": "lmao.gg",
-	"likes": "420"
-}
