@@ -45,7 +45,7 @@ describe("<Blog />", () => {
 		expect(details).toBe(null);
 	});
 
-	test("shows the blog details when the shwo button is clicked", () => {
+	test("shows the blog details when the show button is clicked", () => {
 		let button = component.getByText("view");
 		fireEvent.click(button);
 
@@ -54,5 +54,24 @@ describe("<Blog />", () => {
 
 		const details = component.container.querySelector(".blog-details");
 		expect(details).toBeDefined();
+		expect(details).toBeVisible();
+
+		const likes = component.container.querySelector(".blog-likes");
+
+		expect(component.container).toHaveTextContent("Like");
+		expect(likes).toHaveTextContent(blog.likes);
+		expect(component.container).toHaveTextContent(blog.url);
+	});
+
+	test("clicking the like button twice calls event handler passed as a prop twice", () => {
+		let viewBtn = component.getByText("view");
+		fireEvent.click(viewBtn);
+
+		const button = component.getByText("Like");
+
+		fireEvent.click(button);
+		fireEvent.click(button);
+
+		expect(mockHandlerUpdate.mock.calls).toHaveLength(2);
 	});
 });

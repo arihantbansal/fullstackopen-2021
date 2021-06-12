@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import InputField from "./InputField";
 
 const BlogForm = ({ createBlog }) => {
 	const [inputValues, setInputValues] = useState(null);
@@ -41,8 +42,7 @@ const BlogForm = ({ createBlog }) => {
 		<form onSubmit={addBlog}>
 			<h2>Create New</h2>
 			<div>
-				Title:&emsp;
-				<input
+				<InputField
 					type="text"
 					value={inputValues?.title || ""}
 					name="title"
@@ -53,8 +53,7 @@ const BlogForm = ({ createBlog }) => {
 			</div>
 
 			<div>
-				Author:&emsp;
-				<input
+				<InputField
 					type="text"
 					value={inputValues?.author || ""}
 					name="author"
@@ -65,8 +64,7 @@ const BlogForm = ({ createBlog }) => {
 			</div>
 
 			<div>
-				URL:&emsp;
-				<input
+				<InputField
 					type="text"
 					value={inputValues?.url || ""}
 					name="url"

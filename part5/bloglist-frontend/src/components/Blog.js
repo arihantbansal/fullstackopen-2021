@@ -29,21 +29,27 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
 			<p>
 				<span className="blog-title">{blog.title}</span>{" "}
 				<span className="blog-author">{blog.author} &emsp;</span>
-				<button onClick={() => setShowDetails(!showDetails)}>
+				<button
+					className="blog-show-btn"
+					onClick={() => setShowDetails(!showDetails)}>
 					{showDetails ? "hide" : "view"}
 				</button>
 			</p>
 			{showDetails && (
 				<div className="blog-details">
-					<p>URL: {blog.url}</p>
-					<p>
+					<p className="blog-url">URL: {blog.url}</p>
+					<p className="blog-likes">
 						Likes: {blog.likes} &emsp;
-						<button onClick={() => updateLikes()}>Like</button>
+						<button className="blog-like-btn" onClick={() => updateLikes()}>
+							Like
+						</button>
 					</p>
-					<p>User: {blog.user.name}</p>
+					<p className="blog-user">User: {blog.user.name}</p>
 
 					{blog.user.username === user.username && (
-						<button onClick={deleteBlog}>Remove</button>
+						<button className="blog-user-btn" onClick={deleteBlog}>
+							Remove
+						</button>
 					)}
 				</div>
 			)}
