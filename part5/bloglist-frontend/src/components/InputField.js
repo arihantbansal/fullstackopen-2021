@@ -1,17 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./InputField.module.css";
 
 const InputField = ({ htmlFor, label, type, value, onChange, name }) => (
-	<div className={styles.container}>
+	<div className="container">
 		{/* Add label with htmlFor for accessibility, id on input associates label with input element */}
-		<label className={styles.label} htmlFor={htmlFor}>
+		<label className="label" htmlFor={htmlFor}>
 			{label}
 		</label>
 		<input
 			type={type}
 			name={name}
-			className={styles.input}
+			className="input"
 			id={htmlFor}
 			value={value}
 			onChange={onChange}

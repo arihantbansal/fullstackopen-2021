@@ -3,6 +3,7 @@ import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
+import InputField from "./components/InputField";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -21,9 +22,7 @@ const App = () => {
 	}, []);
 
 	useEffect(() => {
-		const loggedUserJSON = window.localStorage.getItem(
-			"loggedBlogListAppUser"
-		);
+		const loggedUserJSON = window.localStorage.getItem("loggedBlogListAppUser");
 		if (loggedUserJSON) {
 			const user = JSON.parse(loggedUserJSON);
 			setUser(user);
@@ -70,11 +69,7 @@ const App = () => {
 		try {
 			const blog = blogs.filter(blog => blog.id === id);
 
-			if (
-				window.confirm(
-					`Remove blog ${blog[0].title} by ${blog[0].author}`
-				)
-			) {
+			if (window.confirm(`Remove blog ${blog[0].title} by ${blog[0].author}`)) {
 				await blogService.deleteBlog(id);
 
 				setBlogs(blogs.filter(blog => blog.id !== id));
@@ -93,20 +88,20 @@ const App = () => {
 	const loginForm = () => (
 		<form onSubmit={handleLogin}>
 			<div>
-				Username: &emsp;
-				<input
+				<InputField
 					type="text"
 					value={username}
 					name="Username"
+					label="Username"
 					onChange={({ target }) => setUsername(target.value)}
 				/>
 			</div>
 			<div>
-				Password: &emsp;
-				<input
+				<InputField
 					type="password"
 					value={password}
 					name="Password"
+					label="Password"
 					onChange={({ target }) => setPassword(target.value)}
 				/>
 			</div>
@@ -137,6 +132,13 @@ const App = () => {
 			setUser(user);
 			setUsername("");
 			setPassword("");
+
+			setNotificationMessage(`${user.name} succesfully logged in`);
+			setNotificationType("success");
+			setTimeout(() => {
+				setNotificationMessage(null);
+				setNotificationType(null);
+			}, 5000);
 		} catch (exception) {
 			setNotificationMessage("Wrong credentials");
 			setNotificationType("error");
@@ -160,32 +162,29 @@ const App = () => {
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<Notification
-				message={notificationMessage}
-				type={notificationType}
-			/>
+			<Notification message={notificationMessage} type={notificationType} />
 			{user === null ? (
 				loginForm()
 			) : (
 				<div>
 					<p>
 						{user.name} logged in &emsp;
-						<button onClick={event => handleLogout(event)}>
-							Logout
-						</button>
+						<button onClick={event => handleLogout(event)}>Logout</button>
 					</p>
 					{blogForm()}
-					{blogs
-						.sort((a, b) => b.likes - a.likes)
-						.map(blog => (
-							<Blog
-								key={blog.id}
-								blog={blog}
-								updateBlog={addLike}
-								removeBlog={deleteBlog}
-								user={user}
-							/>
-						))}
+					<div className="blogs">
+						{blogs
+							.sort((a, b) => b.likes - a.likes)
+							.map(blog => (
+								<Blog
+									key={blog.id}
+									blog={blog}
+									updateBlog={addLike}
+									removeBlog={deleteBlog}
+									user={user}
+								/>
+							))}
+					</div>
 				</div>
 			)}
 		</div>

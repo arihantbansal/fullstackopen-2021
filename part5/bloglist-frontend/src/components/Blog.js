@@ -32,7 +32,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
 				<button
 					className="blog-show-btn"
 					onClick={() => setShowDetails(!showDetails)}>
-					{showDetails ? "hide" : "view"}
+					{showDetails ? "Hide" : "View"}
 				</button>
 			</p>
 			{showDetails && (
