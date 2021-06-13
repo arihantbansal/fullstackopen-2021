@@ -1,7 +1,93 @@
 body {
-	padding: 5px;
+	margin: 2rem;
 }
 
 button {
 	margin: 10px;
+}
+
+.notification {
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #805ad5;
+	border-radius: 100px;
+}
+
+.anecdote-input {
+	color: #805ad5;
+	border: 1px solid #805ad5;
+	background: none;
+	border-radius: 15px;
+	padding: 5px 10px;
+}
+
+.anecdote-input:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.submit-btn {
+	background: #805ad5;
+	border: none;
+	color: #fff;
+	border-radius: 15px;
+	padding: 5px 10px;
+	margin: 0 0 0 1rem;
+}
+
+.submit-btn:hover {
+	background: #7250bf;
+	cursor: pointer;
+}
+
+.submit-btn:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.anecdote-container {
+	margin: 0.75rem 0;
+}
+
+.vote-container {
+	margin: 0.25rem 0 0 0;
+}
+
+.vote-btn {
+	color: #805ad5;
+	border: 1px solid #805ad5;
+	background: none;
+	border-radius: 15px;
+}
+
+.vote-btn:hover {
+	cursor: pointer;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.vote-btn:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.votes {
+	display: inline-flex;
+	min-width: 3.1rem;
+}
+
+.filter {
+	margin: 0 0 10px 0;
+}
+
+.filter-input {
+	color: #805ad5;
+	border: 1px solid #805ad5;
+	background: none;
+	border-radius: 15px;
+	padding: 5px 10px;
+}
+
+.filter-input:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
