@@ -1,26 +1,32 @@
-const initialState = "";
-
-const notificationReducer = (state = initialState, action) => {
+const notificationReducer = (state = null, action) => {
 	switch (action.type) {
-		case "SET_MESSAGE":
-			return action.data.message;
-		case "REMOVE_MESSAGE":
-			return initialState;
+		case "DISPLAY_NOTIFICATION":
+			return action.data;
+		case "CLEAR_NOTIFICATION":
+			return null;
 		default:
 			return state;
 	}
 };
 
-export const setNotification = message => {
-	return {
-		type: "SET_MESSAGE",
-		data: { message },
-	};
-};
+export const setNotification = (message, duration) => {
+	if (window.notificationTimeout) {
+		window.clearTimeout(window.notificationTimeout);
+	}
 
-export const removeNotification = message => {
-	return {
-		type: "REMOVE_MESSAGE",
+	return async dispatch => {
+		dispatch({
+			type: "DISPLAY_NOTIFICATION",
+			data: message,
+		});
+
+		window.notificationTimeout = setTimeout(
+			() =>
+				dispatch({
+					type: "CLEAR_NOTIFICATION",
+				}),
+			duration * 1000
+		);
 	};
 };
 
