@@ -1,27 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-const useField = type => {
-	const [value, setValue] = useState("");
-
-	const onChange = event => {
-		setValue(event.target.value);
-	};
-
-	return {
-		type,
-		value,
-		onChange,
-	};
-};
-
-const useCountry = name => {
-	const [country, setCountry] = useState(null);
-
-	useEffect(() => {});
-
-	return country;
-};
+import { useState } from "react";
+import { useField, useCountry } from "./hooks/index";
 
 const Country = ({ country }) => {
 	if (!country) {
