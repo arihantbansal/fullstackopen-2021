@@ -1,12 +1,10 @@
-import { useDispatch } from "react-redux";
 import { filter } from "../reducers/filterReducer";
+import { connect } from "react-redux";
 
-const Filter = () => {
-	const dispatch = useDispatch();
-
+const Filter = props => {
 	const handleChange = event => {
 		const filterValue = event.target.value;
-		dispatch(filter({ filter: filterValue }));
+		props.filter({ filter: filterValue });
 	};
 
 	return (
@@ -17,4 +15,4 @@ const Filter = () => {
 	);
 };
 
-export default Filter;
+export default connect(null, { filter })(Filter);
