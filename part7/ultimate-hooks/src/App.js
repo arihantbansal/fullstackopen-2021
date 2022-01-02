@@ -8,20 +8,24 @@ const useField = type => {
 		setValue(event.target.value);
 	};
 
+	const onReset = () => {
+		setValue("");
+	};
+
 	return {
 		type,
 		value,
 		onChange,
+		onReset,
 	};
 };
 
 const useResource = baseUrl => {
 	const [resources, setResources] = useState([]);
 
-	// ...
-
 	const create = resource => {
-		// ...
+		const response = await axios.post(baseUrl, resource);
+		setResources([...resources, response.data]);
 	};
 
 	const service = {
@@ -32,9 +36,9 @@ const useResource = baseUrl => {
 };
 
 const App = () => {
-	const content = useField("text");
-	const name = useField("text");
-	const number = useField("text");
+	const { onReset: resetContent, ...content } = useField("text");
+	const { onReset: resetName, ...name } = useField("text");
+	const { onReset: resetNumber, ...number } = useField("text");
 
 	const [notes, noteService] = useResource("http://localhost:3005/notes");
 	const [persons, personService] = useResource("http://localhost:3005/persons");
@@ -42,11 +46,14 @@ const App = () => {
 	const handleNoteSubmit = event => {
 		event.preventDefault();
 		noteService.create({ content: content.value });
+		resetContent();
 	};
 
 	const handlePersonSubmit = event => {
 		event.preventDefault();
 		personService.create({ name: name.value, number: number.value });
+		resetName();
+		resetNumber();
 	};
 
 	return (
