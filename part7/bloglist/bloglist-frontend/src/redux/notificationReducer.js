@@ -20,13 +20,10 @@ const notificationReducer = (
 
 const clearMessage = dispatch => {
 	setTimeout(() => {
-		dispatch(
-			{
-				type: "CLEAR_NOTIFICATION",
-			},
-			5000
-		);
-	});
+		dispatch({
+			type: "CLEAR_NOTIFICATION",
+		});
+	}, 5000);
 };
 
 export const setSuccessMessage = message => {

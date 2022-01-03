@@ -1,78 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
 import InputField from "./components/InputField";
-import blogService from "./services/blogs";
-import loginService from "./services/login";
 
 import {
 	setSuccessMessage,
 	setErrorMessage,
 } from "./redux/notificationReducer";
+import {
+	initializeBlogs,
+	addBlog,
+	deleteBlog,
+	likeBlog,
+} from "./redux/blogReducer";
+import { loginUser, logoutUser, setUser } from "./redux/userReducer";
 
 const App = () => {
-	const [blogs, setBlogs] = useState([]);
-
 	const dispatch = useDispatch();
+
+	const blogs = useSelector(state => state.blogs);
+	const notification = useSelector(state => state.notification);
+	const user = useSelector(state => state.user);
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		blogService.getAll().then(blogs => setBlogs(blogs));
-	}, []);
+		dispatch(initializeBlogs());
+	}, [dispatch]);
 
 	useEffect(() => {
-		const loggedUserJSON = window.localStorage.getItem("loggedBlogListAppUser");
-		if (loggedUserJSON) {
-			const user = JSON.parse(loggedUserJSON);
-			setUser(user);
-			blogService.setToken(user.token);
-		}
-	}, []);
+		dispatch(setUser());
+	}, [dispatch]);
 
-	const addBlog = blogObject => {
-		blogService.create(blogObject).then(returnedBlog => {
-			setBlogs(blogs.concat(returnedBlog));
-
-			dispatch(
-				setSuccessMessage(
-					`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
-				)
-			);
-		});
+	const createBlog = blogObject => {
+		dispatch(addBlog(blogObject));
+		dispatch(
+			setSuccessMessage(
+				`a new blog ${blogObject.title} by ${blogObject.author} added`
+			)
+		);
 	};
 
 	const addLike = async (id, blogObject) => {
 		try {
-			await blogService.update(id, blogObject);
-
-			const updatedBlog = {
-				...blogObject,
-				id,
-			};
-
-			setBlogs(blogs.map(blog => (blog.id !== id ? blog : updatedBlog)));
+			dispatch(likeBlog(id, blogObject));
 		} catch (exception) {
 			console.error(exception);
 			dispatch(setErrorMessage(`error: Oopsie ${exception}`));
 		}
 	};
 
-	const deleteBlog = async id => {
+	const removeBlog = async id => {
 		try {
-			const blog = blogs.filter(blog => blog.id === id);
-
-			if (window.confirm(`Remove blog ${blog[0].title} by ${blog[0].author}`)) {
-				await blogService.deleteBlog(id);
-
-				setBlogs(blogs.filter(blog => blog.id !== id));
-			}
+			const blog = blogs.find(blog => blog.id === id);
+			dispatch(deleteBlog(id, blog));
 		} catch (exception) {
 			console.error(exception);
 			dispatch(setErrorMessage(`error: Oopsie ${exception}`));
@@ -80,7 +66,10 @@ const App = () => {
 	};
 
 	const loginForm = () => (
-		<form onSubmit={handleLogin}>
+		<form
+			onSubmit={() => {
+				dispatch(loginUser(username, password));
+			}}>
 			<div>
 				<InputField
 					type="text"
@@ -105,55 +94,27 @@ const App = () => {
 
 	const blogForm = () => (
 		<Togglable buttonLabel="Create New Blog">
-			<BlogForm createBlog={addBlog} />
+			<BlogForm createBlog={createBlog} />
 		</Togglable>
 	);
-
-	const handleLogin = async event => {
-		event.preventDefault();
-
-		try {
-			const user = await loginService.login({
-				username,
-				password,
-			});
-
-			window.localStorage.setItem(
-				"loggedBlogListAppUser",
-				JSON.stringify(user)
-			);
-			blogService.setToken(user.token);
-			setUser(user);
-			setUsername("");
-			setPassword("");
-
-			dispatch(setSuccessMessage(`${user.name} succesfully logged in`));
-		} catch (exception) {
-			dispatch(setErrorMessage("Wrong credentials"));
-		}
-	};
-
-	const handleLogout = async event => {
-		event.preventDefault();
-
-		window.localStorage.removeItem("loggedBlogListAppUser");
-		blogService.setToken(null);
-		setUser(null);
-		setUsername("");
-		setPassword("");
-	};
 
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<Notification />
+			<Notification notification={notification} />
 			{user === null ? (
 				loginForm()
 			) : (
 				<div>
 					<p>
 						{user.name} logged in &emsp;
-						<button onClick={event => handleLogout(event)}>Logout</button>
+						<button
+							onClick={event => {
+								event.preventDefault();
+								dispatch(logoutUser());
+							}}>
+							Logout
+						</button>
 					</p>
 					{blogForm()}
 					<div className="blogs">
@@ -164,7 +125,7 @@ const App = () => {
 									key={blog.id}
 									blog={blog}
 									updateBlog={addLike}
-									removeBlog={deleteBlog}
+									removeBlog={removeBlog}
 									user={user}
 								/>
 							))}

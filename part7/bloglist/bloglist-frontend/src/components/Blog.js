@@ -6,7 +6,6 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
 
 	const updateLikes = () => {
 		const { id, author, url, title } = blog;
-		console.log(blog);
 
 		const updatedBlog = {
 			user: blog.user,
