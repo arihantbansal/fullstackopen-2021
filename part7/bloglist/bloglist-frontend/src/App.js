@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
@@ -7,11 +9,15 @@ import InputField from "./components/InputField";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
+import {
+	setSuccessMessage,
+	setErrorMessage,
+} from "./redux/notificationReducer";
+
 const App = () => {
 	const [blogs, setBlogs] = useState([]);
 
-	const [notificationMessage, setNotificationMessage] = useState(null);
-	const [notificationType, setNotificationType] = useState(null);
+	const dispatch = useDispatch();
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -33,14 +39,12 @@ const App = () => {
 	const addBlog = blogObject => {
 		blogService.create(blogObject).then(returnedBlog => {
 			setBlogs(blogs.concat(returnedBlog));
-			setNotificationMessage(
-				`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+
+			dispatch(
+				setSuccessMessage(
+					`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+				)
 			);
-			setNotificationType("success");
-			setTimeout(() => {
-				setNotificationMessage(null);
-				setNotificationType(null);
-			}, 5000);
 		});
 	};
 
@@ -56,12 +60,7 @@ const App = () => {
 			setBlogs(blogs.map(blog => (blog.id !== id ? blog : updatedBlog)));
 		} catch (exception) {
 			console.error(exception);
-			setNotificationMessage(`error: Oopsie ${exception}`);
-			setNotificationType("error");
-			setTimeout(() => {
-				setNotificationMessage(null);
-				setNotificationType(null);
-			}, 5000);
+			dispatch(setErrorMessage(`error: Oopsie ${exception}`));
 		}
 	};
 
@@ -76,12 +75,7 @@ const App = () => {
 			}
 		} catch (exception) {
 			console.error(exception);
-			setNotificationMessage(`error: Oopsie ${exception}`);
-			setNotificationType("error");
-			setTimeout(() => {
-				setNotificationType(null);
-				setNotificationMessage(null);
-			});
+			dispatch(setErrorMessage(`error: Oopsie ${exception}`));
 		}
 	};
 
@@ -133,19 +127,9 @@ const App = () => {
 			setUsername("");
 			setPassword("");
 
-			setNotificationMessage(`${user.name} succesfully logged in`);
-			setNotificationType("success");
-			setTimeout(() => {
-				setNotificationMessage(null);
-				setNotificationType(null);
-			}, 5000);
+			dispatch(setSuccessMessage(`${user.name} succesfully logged in`));
 		} catch (exception) {
-			setNotificationMessage("Wrong credentials");
-			setNotificationType("error");
-			setTimeout(() => {
-				setNotificationMessage(null);
-				setNotificationType(null);
-			}, 5000);
+			dispatch(setErrorMessage("Wrong credentials"));
 		}
 	};
 
@@ -162,7 +146,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<Notification message={notificationMessage} type={notificationType} />
+			<Notification />
 			{user === null ? (
 				loginForm()
 			) : (
