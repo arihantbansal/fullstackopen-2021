@@ -1,0 +1,61 @@
+body {
+	padding: 10px;
+}
+
+.error {
+	color: #ff0000;
+	background: lightgrey;
+	font-size: 20px;
+	border-style: solid;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.success {
+	color: green;
+	background: lightgrey;
+	font-size: 20px;
+	border-style: solid;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.blog {
+	padding: 5px;
+	border: 1px solid black;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.toggle {
+	margin-bottom: 10px;
+}
+
+.toggled div {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.toggled button {
+	margin-top: 5px;
+}
+
+.label {
+	font-size: 1rem;
+	min-width: 100px;
+	display: inline-flex;
+}
+
+.input {
+	border: 1px solid#16d3d8;
+	border-radius: 5px;
+	height: 1.5rem;
+	padding: 0 5px;
+	font-family: Montserrat;
+}
+
+.container {
+	margin: 0.75rem 0;
+}
