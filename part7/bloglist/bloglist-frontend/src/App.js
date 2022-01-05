@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import Blog from "components/Blog";
 import Notification from "components/Notification";
@@ -8,6 +8,8 @@ import BlogForm from "components/BlogForm";
 import Togglable from "components/Togglable";
 import Navbar from "components/Navbar";
 import Users from "components/Users";
+import User from "components/User";
+import NotFound from "components/NotFound";
 
 import { setSuccessMessage, setErrorMessage } from "redux/notificationReducer";
 import {
@@ -17,6 +19,7 @@ import {
 	likeBlog,
 } from "redux/blogReducer";
 import { setUser } from "redux/userReducer";
+import { getAllUsers } from "redux/allUsersReducer";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -24,13 +27,12 @@ const App = () => {
 	const blogs = useSelector(state => state.blogs);
 	const notification = useSelector(state => state.notification);
 	const user = useSelector(state => state.user);
+	const allUsers = useSelector(state => state.allUsers);
 
 	useEffect(() => {
 		dispatch(initializeBlogs());
-	}, [dispatch]);
-
-	useEffect(() => {
 		dispatch(setUser());
+		dispatch(getAllUsers());
 	}, [dispatch]);
 
 	const createBlog = blogObject => {
@@ -67,15 +69,23 @@ const App = () => {
 		</Togglable>
 	);
 
+	const userById = id => allUsers.find(a => a.id === id);
+
+	const match = useRouteMatch("/users/:id");
+	const userMatch = match ? userById(match.params.id) : null;
+
 	return (
 		<div>
 			<Navbar />
 			<Notification notification={notification} />
 			<Switch>
-				<Route path="/users">
-					<Users />
+				<Route path="/users/:id">
+					<User user={userMatch} />
 				</Route>
-				<Route path="/">
+				<Route path="/users">
+					<Users users={allUsers} />
+				</Route>
+				<Route exact path="/">
 					{user === null ? null : (
 						<div>
 							{blogForm()}
@@ -94,6 +104,9 @@ const App = () => {
 							</div>
 						</div>
 					)}
+				</Route>
+				<Route path="*">
+					<NotFound />
 				</Route>
 			</Switch>
 		</div>

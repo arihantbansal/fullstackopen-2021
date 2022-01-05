@@ -17,6 +17,7 @@ const LoginForm = () => {
 			}}>
 			<div>
 				<InputField
+					htmlFor={"username"}
 					type="text"
 					value={username}
 					name="Username"
@@ -26,6 +27,7 @@ const LoginForm = () => {
 			</div>
 			<div>
 				<InputField
+					htmlFor={"password"}
 					type="password"
 					value={password}
 					name="Password"
