@@ -1,4 +1,4 @@
-import usersService from "../services/users";
+import usersService from "services/users";
 
 const allUsersReducer = (state = [], action) => {
 	switch (action.type) {

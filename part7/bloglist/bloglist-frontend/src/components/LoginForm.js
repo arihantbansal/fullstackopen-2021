@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import InputField from "./InputField";
-import { loginUser } from "../redux/userReducer";
+import { loginUser } from "redux/userReducer";
 
 const LoginForm = () => {
 	const dispatch = useDispatch();

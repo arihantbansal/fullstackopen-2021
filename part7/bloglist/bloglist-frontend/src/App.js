@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
-import Blog from "./components/Blog";
-import Notification from "./components/Notification";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
-import LoginForm from "./components/LoginForm";
-import Navbar from "./components/Navbar";
-import Users from "./components/Users";
+import Blog from "components/Blog";
+import Notification from "components/Notification";
+import BlogForm from "components/BlogForm";
+import Togglable from "components/Togglable";
+import LoginForm from "components/LoginForm";
+import Navbar from "components/Navbar";
+import Users from "components/Users";
 
 import {
 	setSuccessMessage,
@@ -75,7 +75,7 @@ const App = () => {
 		<div>
 			<Navbar />
 			<Notification notification={notification} />
-			<Routes>
+			<Switch>
 				<Route path="/users" element={<Users />} />
 				<Route path="/">
 					{user === null ? (
@@ -109,7 +109,7 @@ const App = () => {
 						</div>
 					)}
 				</Route>
-			</Routes>
+			</Switch>
 		</div>
 	);
 };

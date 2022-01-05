@@ -1,5 +1,5 @@
-import loginService from "../services/login";
-import blogService from "../services/blogs";
+import loginService from "services/login";
+import blogService from "services/blogs";
 import { setErrorMessage, setSuccessMessage } from "./notificationReducer";
 
 const userReducer = (state = null, action) => {
