@@ -20,6 +20,7 @@ import {
 } from "redux/blogReducer";
 import { setUser } from "redux/userReducer";
 import { getAllUsers } from "redux/allUsersReducer";
+import BlogPage from "components/BlogPage";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const App = () => {
 		}
 	};
 
+	//eslint-disable-next-line
 	const removeBlog = async id => {
 		try {
 			const blog = blogs.find(blog => blog.id === id);
@@ -69,10 +71,11 @@ const App = () => {
 		</Togglable>
 	);
 
-	const userById = id => allUsers.find(a => a.id === id);
-
 	const match = useRouteMatch("/users/:id");
-	const userMatch = match ? userById(match.params.id) : null;
+	const userMatch = match ? allUsers.find(a => a.id === match.params.id) : null;
+
+	const matchBlog = useRouteMatch("/blogs/:id");
+	const blog = matchBlog ? blogs.find(a => a.id === matchBlog.params.id) : null;
 
 	return (
 		<div>
@@ -85,6 +88,9 @@ const App = () => {
 				<Route path="/users">
 					<Users users={allUsers} />
 				</Route>
+				<Route path="/blogs/:id">
+					<BlogPage blog={blog} updateBlog={addLike} />
+				</Route>
 				<Route exact path="/">
 					{user === null ? null : (
 						<div>
@@ -93,13 +99,7 @@ const App = () => {
 								{blogs
 									.sort((a, b) => b.likes - a.likes)
 									.map(blog => (
-										<Blog
-											key={blog.id}
-											blog={blog}
-											updateBlog={addLike}
-											removeBlog={removeBlog}
-											user={user}
-										/>
+										<Blog key={blog.id} blog={blog} />
 									))}
 							</div>
 						</div>
