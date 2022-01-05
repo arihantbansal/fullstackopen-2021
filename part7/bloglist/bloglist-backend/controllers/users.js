@@ -41,14 +41,4 @@ usersRouter.get("/", async (request, response) => {
 	response.json(users.map(u => u.toJSON()));
 });
 
-usersRouter.get("/:username", async (request, response) => {
-	const user = await User.findOne({
-		username: request.params.username,
-	}).populate("blogs", {
-		url: 1,
-		title: 1,
-	});
-	response.json(user.toJSON());
-});
-
 module.exports = usersRouter;
