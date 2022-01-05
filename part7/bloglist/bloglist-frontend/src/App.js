@@ -6,21 +6,17 @@ import Blog from "components/Blog";
 import Notification from "components/Notification";
 import BlogForm from "components/BlogForm";
 import Togglable from "components/Togglable";
-import LoginForm from "components/LoginForm";
 import Navbar from "components/Navbar";
 import Users from "components/Users";
 
-import {
-	setSuccessMessage,
-	setErrorMessage,
-} from "./redux/notificationReducer";
+import { setSuccessMessage, setErrorMessage } from "redux/notificationReducer";
 import {
 	initializeBlogs,
 	addBlog,
 	deleteBlog,
 	likeBlog,
-} from "./redux/blogReducer";
-import { logoutUser, setUser } from "./redux/userReducer";
+} from "redux/blogReducer";
+import { setUser } from "redux/userReducer";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -76,22 +72,12 @@ const App = () => {
 			<Navbar />
 			<Notification notification={notification} />
 			<Switch>
-				<Route path="/users" element={<Users />} />
+				<Route path="/users">
+					<Users />
+				</Route>
 				<Route path="/">
-					{user === null ? (
-						<LoginForm />
-					) : (
+					{user === null ? null : (
 						<div>
-							<p>
-								{user.name} logged in &emsp;
-								<button
-									onClick={event => {
-										event.preventDefault();
-										dispatch(logoutUser());
-									}}>
-									Logout
-								</button>
-							</p>
 							{blogForm()}
 							<div className="blogs">
 								{blogs

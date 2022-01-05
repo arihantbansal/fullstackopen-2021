@@ -11,7 +11,8 @@ const LoginForm = () => {
 
 	return (
 		<form
-			onSubmit={() => {
+			onSubmit={e => {
+				e.preventDefault();
 				dispatch(loginUser(username, password));
 			}}>
 			<div>
