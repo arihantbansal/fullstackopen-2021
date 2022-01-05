@@ -23,13 +23,6 @@ Blog.propTypes = {
 		url: PropTypes.string.isRequired,
 		likes: PropTypes.number,
 	}),
-	updateBlog: PropTypes.func.isRequired,
-	removeBlog: PropTypes.func.isRequired,
-	user: PropTypes.shape({
-		token: PropTypes.string,
-		username: PropTypes.string,
-		name: PropTypes.string,
-	}),
 };
 
 export default Blog;

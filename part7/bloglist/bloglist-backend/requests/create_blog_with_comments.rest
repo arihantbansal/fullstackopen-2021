@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+    "title": "The Single Responsibility Principle Robert C. Martin",
+    "author": "Aaron Swartz",
+		"url": "vscode.dev",
+		"likes": "3",
+		"user": "60966fdbf4d09f4f3444b601",
+		"comments": ["awesome article", "a must read for every developer"]
+}
