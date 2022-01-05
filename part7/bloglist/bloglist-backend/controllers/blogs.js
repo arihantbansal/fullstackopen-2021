@@ -82,22 +82,6 @@ blogsRouter.put("/:id", async (request, response) => {
 
 	const blog = {
 		likes: body.likes,
-	};
-
-	const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true });
-
-	if (updatedBlog) {
-		response.status(200).json(updatedBlog.toJSON());
-	} else {
-		response.status(404).end();
-	}
-});
-
-blogsRouter.put("/:id/comments", async (request, response) => {
-	const { body } = request;
-	const { id } = request.params;
-
-	const blog = {
 		comments: body.comments,
 	};
 

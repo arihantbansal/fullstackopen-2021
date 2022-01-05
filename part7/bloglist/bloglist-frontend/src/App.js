@@ -16,7 +16,7 @@ import {
 	initializeBlogs,
 	addBlog,
 	deleteBlog,
-	likeBlog,
+	updateBlog,
 } from "redux/blogReducer";
 import { setUser } from "redux/userReducer";
 import { getAllUsers } from "redux/allUsersReducer";
@@ -45,9 +45,9 @@ const App = () => {
 		);
 	};
 
-	const addLike = async (id, blogObject) => {
+	const updateBlogObj = async (id, blogObject) => {
 		try {
-			dispatch(likeBlog(id, blogObject));
+			dispatch(updateBlog(id, blogObject));
 		} catch (exception) {
 			console.error(exception);
 			dispatch(setErrorMessage(`error: Oopsie ${exception}`));
@@ -89,7 +89,7 @@ const App = () => {
 					<Users users={allUsers} />
 				</Route>
 				<Route path="/blogs/:id">
-					<BlogPage blog={blog} updateBlog={addLike} />
+					<BlogPage blog={blog} updateBlog={updateBlogObj} />
 				</Route>
 				<Route exact path="/">
 					{user === null ? null : (

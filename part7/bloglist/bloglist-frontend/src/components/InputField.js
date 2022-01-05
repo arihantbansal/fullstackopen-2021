@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const InputField = ({ htmlFor, label, type, value, onChange, name }) => (
-	<div className="container">
+	<span className="container">
 		{/* Add label with htmlFor for accessibility, id on input associates label with input element */}
 		<label className="label" htmlFor={htmlFor}>
 			{label}
@@ -15,7 +15,7 @@ const InputField = ({ htmlFor, label, type, value, onChange, name }) => (
 			value={value}
 			onChange={onChange}
 		/>
-	</div>
+	</span>
 );
 
 export default InputField;

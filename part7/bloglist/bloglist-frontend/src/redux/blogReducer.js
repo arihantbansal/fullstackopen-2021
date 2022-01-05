@@ -8,10 +8,15 @@ const blogReducer = (state = [], action) => {
 			return [...state, action.data];
 		case "DELETE_BLOG":
 			return state.filter(blog => blog.id !== action.data.id);
-		case "LIKE_BLOG":
+		case "UPDATE_BLOG":
 			return state.map(blog =>
 				blog.id === action.data.id
-					? { ...blog, likes: action.data.likes }
+					? {
+							...blog,
+							likes: action.data.likes,
+							comments: action.data.comments,
+							//eslint-disable-next-line
+					  }
 					: blog
 			);
 		default:
@@ -51,7 +56,7 @@ export const deleteBlog = (blogId, blogObj) => {
 	};
 };
 
-export const likeBlog = (blogId, blogObject) => {
+export const updateBlog = (blogId, blogObject) => {
 	return async dispatch => {
 		const updatedBlog = {
 			...blogObject,
@@ -60,7 +65,7 @@ export const likeBlog = (blogId, blogObject) => {
 		};
 		await blogService.update(blogId, updatedBlog);
 		dispatch({
-			type: "LIKE_BLOG",
+			type: "UPDATE_BLOG",
 			data: updatedBlog,
 		});
 	};
