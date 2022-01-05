@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-	BrowserRouter as Router,
 	Switch,
 	Route,
 	Link,
@@ -29,7 +28,6 @@ const Menu = () => {
 };
 
 const Anecdote = ({ anecdote }) => {
-	console.log(anecdote);
 	return (
 		<div>
 			<h2>{anecdote.content}</h2>
