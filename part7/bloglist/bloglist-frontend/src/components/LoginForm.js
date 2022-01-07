@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Box, FormControl, Button } from "@chakra-ui/react";
 import InputField from "./InputField";
 import { loginUser } from "redux/userReducer";
 
@@ -10,12 +11,12 @@ const LoginForm = () => {
 	const [password, setPassword] = useState("");
 
 	return (
-		<form
+		<FormControl
 			onSubmit={e => {
 				e.preventDefault();
 				dispatch(loginUser(username, password));
 			}}>
-			<div>
+			<Box>
 				<InputField
 					htmlFor={"username"}
 					type="text"
@@ -24,8 +25,8 @@ const LoginForm = () => {
 					label="Username"
 					onChange={({ target }) => setUsername(target.value)}
 				/>
-			</div>
-			<div>
+			</Box>
+			<Box>
 				<InputField
 					htmlFor={"password"}
 					type="password"
@@ -34,9 +35,9 @@ const LoginForm = () => {
 					label="Password"
 					onChange={({ target }) => setPassword(target.value)}
 				/>
-			</div>
-			<button type="submit">Login</button>
-		</form>
+			</Box>
+			<Button type="submit">Login</Button>
+		</FormControl>
 	);
 };
 

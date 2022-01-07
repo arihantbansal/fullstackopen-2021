@@ -1,18 +1,19 @@
 import React from "react";
+import { Box, Heading, UnorderedList, ListItem } from "@chakra-ui/react";
 
 const User = ({ user }) => {
 	if (!user) return null;
 
 	return (
-		<div>
-			<h2>{user.name}</h2>
-			<h3>Added blogs: </h3>
-			<ul>
+		<Box>
+			<Heading as="h2">{user.name}</Heading>
+			<Heading as="h3">Added blogs: </Heading>
+			<UnorderedList>
 				{user.blogs.map(blog => (
-					<li key={blog.id}>{blog.title}</li>
+					<ListItem key={blog.id}>{blog.title}</ListItem>
 				))}
-			</ul>
-		</div>
+			</UnorderedList>
+		</Box>
 	);
 };
 

@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 
 const NotFound = () => {
 	return (
-		<div>
+		<Box>
 			404 Not Found
-			<div>
+			<Box>
 				<Link to="/">Go back home</Link>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	);
 };
 

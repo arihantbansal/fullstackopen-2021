@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import {
+	Box,
+	Heading,
+	Text,
+	Button,
+	FormControl,
+	UnorderedList,
+	ListItem,
+	Link as ExternalLink,
+} from "@chakra-ui/react";
 import InputField from "./InputField";
 
 const BlogPage = ({ blog, updateBlog }) => {
@@ -41,7 +50,7 @@ const BlogPage = ({ blog, updateBlog }) => {
 		<Box>
 			<Heading as="h2">{blog.title}</Heading>
 			<Box>
-				<a href={blog.url}>{blog.url}</a>
+				<ExternalLink href={blog.url}>{blog.url}</ExternalLink>
 				<Text as="p">
 					{blog.likes} likes <Button onClick={() => updateLikes()}>like</Button>
 				</Text>
@@ -50,7 +59,7 @@ const BlogPage = ({ blog, updateBlog }) => {
 
 			<Box>
 				<Heading as="h3">Comments: </Heading>
-				<form
+				<FormControl
 					onSubmit={e => {
 						e.preventDefault();
 						updateComments();
@@ -64,14 +73,14 @@ const BlogPage = ({ blog, updateBlog }) => {
 							label="Comment"
 							onChange={({ target }) => setComment(target.value)}
 						/>
-						<button type="submit">Add Comment</button>
+						<Button type="submit">Add Comment</Button>
 					</Text>
-				</form>
-				<ul>
+				</FormControl>
+				<UnorderedList>
 					{blog.comments.map(comment => (
-						<li key={comment}>{comment}</li>
+						<ListItem key={comment}>{comment}</ListItem>
 					))}
-				</ul>
+				</UnorderedList>
 			</Box>
 		</Box>
 	);

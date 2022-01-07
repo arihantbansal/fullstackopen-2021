@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Box, Heading, FormControl, Button } from "@chakra-ui/react";
 import InputField from "./InputField";
 
 const BlogForm = ({ createBlog }) => {
@@ -39,9 +40,9 @@ const BlogForm = ({ createBlog }) => {
 	};
 
 	return (
-		<form onSubmit={addBlog}>
-			<h2>Create New</h2>
-			<div>
+		<FormControl onSubmit={addBlog}>
+			<Heading as="h2">Create New</Heading>
+			<Box>
 				<InputField
 					type="text"
 					value={inputValues?.title || ""}
@@ -50,9 +51,9 @@ const BlogForm = ({ createBlog }) => {
 					htmlFor="title"
 					onChange={handleInputChange}
 				/>
-			</div>
+			</Box>
 
-			<div>
+			<Box>
 				<InputField
 					type="text"
 					value={inputValues?.author || ""}
@@ -61,9 +62,9 @@ const BlogForm = ({ createBlog }) => {
 					htmlFor="author"
 					onChange={handleInputChange}
 				/>
-			</div>
+			</Box>
 
-			<div>
+			<Box>
 				<InputField
 					type="text"
 					value={inputValues?.url || ""}
@@ -72,9 +73,9 @@ const BlogForm = ({ createBlog }) => {
 					htmlFor="url"
 					onChange={handleInputChange}
 				/>
-			</div>
-			<button type="submit">Create</button>
-		</form>
+			</Box>
+			<Button type="submit">Create</Button>
+		</FormControl>
 	);
 };
 

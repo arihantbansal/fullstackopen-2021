@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Box, Text, Heading, Button } from "@chakra-ui/react";
 import { logoutUser, setUser } from "redux/userReducer";
 import LoginForm from "./LoginForm";
 
@@ -13,36 +14,36 @@ const Navbar = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
-			<div>
-				<span>
+		<Box>
+			<Box>
+				<Text as="span">
 					<Link to="/">blogs</Link>
 					&emsp;
-				</span>
-				<span>
+				</Text>
+				<Text as="span">
 					<Link to="/users">users</Link>
 					&emsp;
-				</span>
-				<span>
+				</Text>
+				<Box as="span">
 					{user === null ? (
 						<LoginForm />
 					) : (
-						<span>
+						<Box as="span">
 							{user.name} logged in &emsp;
-							<button
+							<Button
 								onClick={event => {
 									event.preventDefault();
 									dispatch(logoutUser());
 								}}>
 								Logout
-							</button>
-						</span>
+							</Button>
+						</Box>
 					)}
-				</span>
-			</div>
+				</Box>
+			</Box>
 
-			<h2>Blog App</h2>
-		</div>
+			<Heading as="h2">Blog App</Heading>
+		</Box>
 	);
 };
 

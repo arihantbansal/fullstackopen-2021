@@ -6,7 +6,7 @@ import { Box, Text } from "@chakra-ui/react";
 const Blog = ({ blog }) => {
 	return (
 		<Box className="blog">
-			<Text as="p">
+			<Box as="p">
 				<Link to={`/blogs/${blog.id}`}>
 					<Text as="span" className="blog-title">
 						{blog.title}
@@ -16,7 +16,7 @@ const Blog = ({ blog }) => {
 					</Text>
 				</Link>
 				&emsp;
-			</Text>
+			</Box>
 		</Box>
 	);
 };

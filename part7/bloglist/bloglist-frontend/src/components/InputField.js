@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Box, FormLabel, Input } from "@chakra-ui/react";
 
 const InputField = ({ htmlFor, label, type, value, onChange, name }) => (
-	<span className="container">
+	<Box as="span" className="container">
 		{/* Add label with htmlFor for accessibility, id on input associates label with input element */}
-		<label className="label" htmlFor={htmlFor}>
+		<FormLabel className="label" htmlFor={htmlFor}>
 			{label}
-		</label>
-		<input
+		</FormLabel>
+		<Input
 			type={type}
 			name={name}
 			className="input"
@@ -15,7 +16,7 @@ const InputField = ({ htmlFor, label, type, value, onChange, name }) => (
 			value={value}
 			onChange={onChange}
 		/>
-	</span>
+	</Box>
 );
 
 export default InputField;
