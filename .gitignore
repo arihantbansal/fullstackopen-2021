@@ -1,12 +1,15 @@
+# ignore common files and folders
 **/build
 **/node_modules
 **/.env
+
+# ignore practice projects and scripts
 **/notes
 **/counter
 **/notes-backend
-**/redux-notes
-**/router-test.js
-**/notes-bootstrap.js
-**/notes-materialui.js
-**/webpack-setup
-**/graphql-phonebook-backend
+part6/redux-notes
+part7/router-test.js
+part7/notes-bootstrap.js
+part7/notes-materialui.js
+part7/webpack-setup
+part8/graphql-phonebook-backend
