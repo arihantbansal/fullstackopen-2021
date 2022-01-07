@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import InputField from "./InputField";
 
 const BlogPage = ({ blog, updateBlog }) => {
@@ -37,24 +38,24 @@ const BlogPage = ({ blog, updateBlog }) => {
 	};
 
 	return (
-		<div>
-			<h2>{blog.title}</h2>
-			<div>
+		<Box>
+			<Heading as="h2">{blog.title}</Heading>
+			<Box>
 				<a href={blog.url}>{blog.url}</a>
-				<p>
-					{blog.likes} likes <button onClick={() => updateLikes()}>like</button>
-				</p>
-				<p>added by {blog.author}</p>
-			</div>
+				<Text as="p">
+					{blog.likes} likes <Button onClick={() => updateLikes()}>like</Button>
+				</Text>
+				<Text as="p">added by {blog.author}</Text>
+			</Box>
 
-			<div>
-				<h3>Comments: </h3>
+			<Box>
+				<Heading as="h3">Comments: </Heading>
 				<form
 					onSubmit={e => {
 						e.preventDefault();
 						updateComments();
 					}}>
-					<span>
+					<Text as="span">
 						<InputField
 							htmlFor={"comment"}
 							type="text"
@@ -64,15 +65,15 @@ const BlogPage = ({ blog, updateBlog }) => {
 							onChange={({ target }) => setComment(target.value)}
 						/>
 						<button type="submit">Add Comment</button>
-					</span>
+					</Text>
 				</form>
 				<ul>
 					{blog.comments.map(comment => (
 						<li key={comment}>{comment}</li>
 					))}
 				</ul>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	);
 };
 

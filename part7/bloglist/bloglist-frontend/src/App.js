@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 
 import Blog from "components/Blog";
 import Notification from "components/Notification";
@@ -78,7 +79,7 @@ const App = () => {
 	const blog = matchBlog ? blogs.find(a => a.id === matchBlog.params.id) : null;
 
 	return (
-		<div>
+		<Box>
 			<Navbar />
 			<Notification notification={notification} />
 			<Switch>
@@ -93,23 +94,23 @@ const App = () => {
 				</Route>
 				<Route exact path="/">
 					{user === null ? null : (
-						<div>
+						<Box>
 							{blogForm()}
-							<div className="blogs">
+							<Box className="blogs">
 								{blogs
 									.sort((a, b) => b.likes - a.likes)
 									.map(blog => (
 										<Blog key={blog.id} blog={blog} />
 									))}
-							</div>
-						</div>
+							</Box>
+						</Box>
 					)}
 				</Route>
 				<Route path="*">
 					<NotFound />
 				</Route>
 			</Switch>
-		</div>
+		</Box>
 	);
 };
 

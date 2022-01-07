@@ -1,18 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Box, Text } from "@chakra-ui/react";
 
 const Blog = ({ blog }) => {
 	return (
-		<div className="blog">
-			<p>
+		<Box className="blog">
+			<Text as="p">
 				<Link to={`/blogs/${blog.id}`}>
-					<span className="blog-title">{blog.title}</span>{" "}
-					<span className="blog-author">{blog.author}</span>
+					<Text as="span" className="blog-title">
+						{blog.title}
+					</Text>{" "}
+					<Text as="span" className="blog-author">
+						{blog.author}
+					</Text>
 				</Link>
 				&emsp;
-			</p>
-		</div>
+			</Text>
+		</Box>
 	);
 };
 
