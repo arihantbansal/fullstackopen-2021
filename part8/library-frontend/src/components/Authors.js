@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { ALL_AUTHORS } from "../queries";
+import SetBirthYear from "./SetBirthYear";
 
 const Authors = props => {
 	const result = useQuery(ALL_AUTHORS);
@@ -12,6 +13,13 @@ const Authors = props => {
 	if (result.loading) {
 		return <div>loading ...</div>;
 	}
+
+	const options = result.data?.allAuthors?.map(option => {
+		return {
+			value: option.name.toLowerCase(),
+			label: option.name,
+		};
+	});
 
 	return (
 		<div>
@@ -32,6 +40,8 @@ const Authors = props => {
 					))}
 				</tbody>
 			</table>
+
+			<SetBirthYear options={options} />
 		</div>
 	);
 };
