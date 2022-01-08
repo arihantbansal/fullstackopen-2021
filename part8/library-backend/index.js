@@ -1,7 +1,8 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, UserInputError, gql } = require("apollo-server");
 const {
 	ApolloServerPluginLandingPageGraphQLPlayground,
 } = require("apollo-server-core");
+const { v1: uuid } = require("uuid");
 
 let authors = [
 	{
@@ -98,14 +99,24 @@ const typeDefs = gql`
 	type Author {
 		name: String!
 		bookCount: Int!
-		born: Int!
+		born: Int
 	}
 
 	type Query {
 		bookCount: Int!
 		authorCount: Int!
-		allBooks(author: String): [Book!]!
+		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
+	}
+
+	type Mutation {
+		addBook(
+			title: String!
+			author: String!
+			published: Int!
+			genres: [String!]
+		): Book
+		editAuthor(name: String!, setBornTo: Int!): Author
 	}
 `;
 
@@ -114,10 +125,19 @@ const resolvers = {
 		bookCount: () => books.length,
 		authorCount: () => authors.length,
 		allBooks: (root, args) => {
-			if (!args.author) return books;
-
+			const byGenre = book => book.genres.includes(args.genre);
 			const byAuthor = book => (args.author === book.author ? book : null);
-			return books.filter(byAuthor);
+
+			if (!args.author) {
+				if (!args.genre) return books;
+				return books.filter(byGenre);
+			}
+
+			if (!args.genre) {
+				return books.filter(byAuthor);
+			}
+
+			return books.filter(byAuthor).filter(byGenre);
 		},
 		allAuthors: () => authors,
 	},
@@ -125,6 +145,34 @@ const resolvers = {
 		bookCount: root => {
 			const booksByAuthor = books.filter(b => b.author === root.name);
 			return booksByAuthor.length;
+		},
+	},
+	Mutation: {
+		addBook: (root, args) => {
+			if (books.find(b => b.title === args.title)) {
+				throw new UserInputError("Name must be unique", {
+					invalidArgs: args.title,
+				});
+			}
+
+			const book = { ...args, id: uuid() };
+			if (!authors.find(p => p.name === args.author)) {
+				const author = { name: args.author, born: null };
+				authors = authors.concat(author);
+			}
+			books = books.concat(book);
+			return book;
+		},
+		editAuthor: (root, args) => {
+			const author = authors.find(author => author.name === args.name);
+
+			if (!author) {
+				return null;
+			}
+
+			const updatedAuthor = { ...author, born: setBornTo };
+			authors = authors.map(a => (a.name === args.name ? updatedAuthor : a));
+			return updatedAuthor;
 		},
 	},
 };
