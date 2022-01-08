@@ -170,7 +170,7 @@ const resolvers = {
 				return null;
 			}
 
-			const updatedAuthor = { ...author, born: setBornTo };
+			const updatedAuthor = { ...author, born: args.setBornTo };
 			authors = authors.map(a => (a.name === args.name ? updatedAuthor : a));
 			return updatedAuthor;
 		},
