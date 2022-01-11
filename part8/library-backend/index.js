@@ -8,6 +8,7 @@ const {
 } = require("apollo-server-core");
 const { v1: uuid } = require("uuid");
 const jwt = require("jsonwebtoken");
+const book = require("./models/book");
 require("dotenv").config();
 
 mongoose
@@ -76,30 +77,52 @@ const resolvers = {
 	},
 	Mutation: {
 		addBook: (root, args) => {
-			if (books.find(b => b.title === args.title)) {
-				throw new UserInputError("Name must be unique", {
-					invalidArgs: args.title,
+			try {
+				let author = await Author.findOne({ name: args.author });
+
+				if (author) {
+					let book = new Book({ ...args, author: author._id });
+					await book.save();
+				}
+
+				if (!author) {
+					author = new Author({
+						name: args.author,
+						born: null,
+						bookCount: 1,
+						id: uuid(),
+					});
+
+					let book = new Book({ ...args, author: author._id });
+					await author.save();
+					await book.save();
+				}
+			} catch (error) {
+				throw new UserInputError(error.message, {
+					invalidArgs: args,
 				});
 			}
 
-			const book = { ...args, id: uuid() };
-			if (!authors.find(p => p.name === args.author)) {
-				const author = { name: args.author, born: null };
-				authors = authors.concat(author);
-			}
-			books = books.concat(book);
 			return book;
 		},
 		editAuthor: (root, args) => {
-			const author = authors.find(author => author.name === args.name);
+			const author = await Author.findOne({ name: args.name });
 
 			if (!author) {
 				return null;
 			}
 
-			const updatedAuthor = { ...author, born: args.setBornTo };
-			authors = authors.map(a => (a.name === args.name ? updatedAuthor : a));
-			return updatedAuthor;
+			author.born = args.setBornTo;
+
+			try {
+				await author.save();
+			} catch (error) {
+				throw new UserInputError(error.message, {
+					invalidArgs: args,
+				});
+			}
+
+			return author;
 		},
 	},
 };
