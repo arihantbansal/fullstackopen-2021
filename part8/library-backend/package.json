@@ -12,6 +12,8 @@
 		"apollo-server": "^3.6.1",
 		"apollo-server-core": "^3.6.1",
 		"graphql": "^16.2.0",
+		"mongoose": "^6.1.6",
+		"mongoose-unique-validator": "^3.0.0",
 		"uuid": "^8.3.2"
 	}
 }
